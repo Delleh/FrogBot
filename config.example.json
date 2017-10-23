@@ -1,0 +1,15 @@
+{
+	"administator": {
+		"owner":"252869311545212928",
+		"requests":"369628290199060490"
+	}
+
+	"scraper": {
+		"location":"pepos/",
+	},
+
+	"bot": {
+		"token":"TOKEN_HERE",
+		"rate":30
+	}
+}
