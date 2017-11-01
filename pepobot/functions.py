@@ -20,12 +20,15 @@ def getAllFrogs():
 def randomFrog():
     return random.choice(getAllFrogs())
 
-def md5hash(fname):
-    hash_md5 = hashlib.md5()
-    with open(fname, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+def sha1Sum(file):
+    sha1 = hashlib.sha1() 
+    with open(file, 'rb') as r:
+        buf = r.read(65536)
+        while len(buf) > 0:
+            sha1.update(buf)
+            buf = r.read(65536)
+
+    return sha1.hexdigest()
 
 def getFileType(filename):
     filetype = imghdr.what(filename)
@@ -35,7 +38,24 @@ def getFileType(filename):
         return False
 
 def deleteFrog(filename):
-    return os.remove(config.cfg['scraper']['location'] + filename)
+    return os.remove(filename)
+
+def findDuplicateFrog(sha1):
+    return glob.glob(config.cfg['scraper']['location'] + sha1 + "*")
+
+def commitFrogToLibrary(filename):
+    sha = sha1Sum(filename)
+
+    #if we find a duplicate frog, ignore
+    if len(findDuplicateFrog(sha)) is not 0:
+        print("DUPE: A duplicate frog was already found saved on disk with the SHA1 of {0}".format(sha))
+        deleteFrog(filename)
+        return False
+    else:
+        print("ADD: Frog accepted as not seen, adding to the folder. SHA1:{0}".format(sha))
+        fname, fext = os.path.splitext(filename)
+        os.rename(filename, config.cfg['scraper']['location'] + sha + fext)
+        return filename
 
 #ADD DUPE CHECKING, IF EQUAL IGNORE OTHERWISE MD5 NAME OR SOME RANDOM VAL
 async def saveFrog(url, filename):
@@ -43,7 +63,7 @@ async def saveFrog(url, filename):
                 async with session.get(url) as r:
                     if r.status == 200:
                         raw = await r.read()
-                        with open(config.cfg['scraper']['location'] + filename, "wb") as wr:
+                        with open(filename, "wb") as wr:
                             wr.write(raw)
                         return filename
                     else:
@@ -51,16 +71,21 @@ async def saveFrog(url, filename):
 
 async def getFrogFromUpload(msg):
     for attachment in msg.attachments:
+        #come up with a filename
         filename = msg.id + "-" + attachment['filename'].replace("-","_").replace(" ","_")
-        ret = await saveFrog(attachment['url'], filename)
-        return ret
+
+        #pull into temp folder
+        temp = await saveFrog(attachment['url'], config.cfg['scraper']['staging'] + filename)
+
+        #dupe checker and saver
+        return commitFrogToLibrary(temp)
 
 async def getFrogFromURL(id, urls):
     for url in urls:
         filebase = url.split("/")[-1]
         filename = id + "-" + filebase.replace("-","_").replace(" ","_")
-        ret = await saveFrog(url, filename)
-        return ret
+        temp = await saveFrog(url, filename)
+        return commitFrogToLibrary(temp)
 
 async def fetchFrogFromMessage(message):
     if message.attachments:
