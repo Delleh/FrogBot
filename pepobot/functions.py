@@ -74,20 +74,27 @@ async def getFrogFromUpload(msg):
         #come up with a filename
         filename = msg.id + "-" + attachment['filename'].replace("-","_").replace(" ","_")
 
-        #pull into temp folder
+        #pull into temp folder and return
         temp = await saveFrog(attachment['url'], config.cfg['scraper']['staging'] + filename)
-
-        #dupe checker and saver
-        return commitFrogToLibrary(temp)
+        return temp
 
 async def getFrogFromURL(id, urls):
     for url in urls:
         filebase = url.split("/")[-1]
         filename = id + "-" + filebase.replace("-","_").replace(" ","_")
         temp = await saveFrog(url, filename)
-        return commitFrogToLibrary(temp)
+        return temp
 
 async def fetchFrogFromMessage(message):
+    if message.attachments:
+        resp = await getFrogFromUpload(message)
+        return commitFrogToLibrary(resp)
+    else:
+        URLs = getLinksFromPost(message.content)
+        resp = await getFrogFromURL(message.id, URLs)
+        return commitFrogToLibrary(resp)
+
+async def queueFrogFromMessage(message):
     if message.attachments:
         resp = await getFrogFromUpload(message)
         return resp
@@ -95,18 +102,3 @@ async def fetchFrogFromMessage(message):
         URLs = getLinksFromPost(message.content)
         resp = await getFrogFromURL(message.id, URLs)
         return resp
-
-#COME UP WITH A WAY TO SOFT CALL FILES INTO THE TEMP FOLDER FOR STAGING
-#THIS SHOULD NOT BE MESSY, MAKE IT 
-
-# DOWNLOAD THE FROG
-# MOVE THE FROG TO THE TEMP FOLDER
-# DO DUPE CHECKING ON IT
-# MOVE TO PROD FOLDER 
-
-#SO THEN TEMP STUFF (!PEPOREQUEST) CAN GO 
-# DOWNLOAD THE FROG
-# MOVE THE FROG TO THE TEMP FOLDER
-# DO DUPE CHECKING ON IT, DELETE AND NOTIFTY IF DUPE
-# HOLD FOR APPROVAL IN TMP
-# IF APPROVED MOVE TO PROD FOLDER
