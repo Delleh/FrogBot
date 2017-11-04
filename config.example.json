@@ -1,0 +1,17 @@
+{
+	"administration":{
+		"owner":"252869311545212928",
+		"requests":"369628290199060490"
+	},
+
+	"bot":{
+		"token":"",
+		"description":"I am a simple robot, who likes to post pictures of frogs",
+		"rate":30
+	},
+
+	"scraper":{
+		"location":"frogs/",
+		"staging":"tmp/"
+	}
+}

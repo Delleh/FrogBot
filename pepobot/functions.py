@@ -1,4 +1,4 @@
-print("Importing... %s" % __name__)
+print("IMPORT: %s" % __name__)
 
 from . import config
 
@@ -95,3 +95,18 @@ async def fetchFrogFromMessage(message):
         URLs = getLinksFromPost(message.content)
         resp = await getFrogFromURL(message.id, URLs)
         return resp
+
+#COME UP WITH A WAY TO SOFT CALL FILES INTO THE TEMP FOLDER FOR STAGING
+#THIS SHOULD NOT BE MESSY, MAKE IT 
+
+# DOWNLOAD THE FROG
+# MOVE THE FROG TO THE TEMP FOLDER
+# DO DUPE CHECKING ON IT
+# MOVE TO PROD FOLDER 
+
+#SO THEN TEMP STUFF (!PEPOREQUEST) CAN GO 
+# DOWNLOAD THE FROG
+# MOVE THE FROG TO THE TEMP FOLDER
+# DO DUPE CHECKING ON IT, DELETE AND NOTIFTY IF DUPE
+# HOLD FOR APPROVAL IN TMP
+# IF APPROVED MOVE TO PROD FOLDER

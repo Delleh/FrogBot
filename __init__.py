@@ -1,6 +1,7 @@
 import pepobot.config
 import pepobot.discord
 import pepobot.functions
+import pepobot.analytics
 
 import pepobot.scraper
 import pepobot.poster
