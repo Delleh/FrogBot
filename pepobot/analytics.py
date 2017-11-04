@@ -8,6 +8,8 @@ import time
 
 lastMessageChannels = {}
 
+#TODO: SOMETIMES THE BOT LOCKS ITSELF OUT, FIX THIS
+
 @discord.bot.event
 async def on_message(message):
 	if rateLimitAllowProcessing(message):

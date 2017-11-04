@@ -20,9 +20,9 @@ async def fetch(ctx):
         URLs = functions.getLinksFromPost(ctx.message.content)
         resp = await functions.getFrogFromURL(ctx.message.id, URLs)
         if resp is False:
-            await discord.bot.add_reaction(ctx.message, "ree:287640249964691459")
+            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         else:
-            await discord.bot.add_reaction(ctx.message, "pepOk:350323644783656971")
+            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['success'])
 
 @discord.bot.command(pass_context=True, no_pm=True)
 async def recall(ctx, id: str):
@@ -30,22 +30,22 @@ async def recall(ctx, id: str):
         recalled = await discord.bot.get_message(ctx.message.channel, id)
         getFroggo = await functions.fetchFrogFromMessage(recalled)
         if getFroggo is False:
-            await discord.bot.add_reaction(ctx.message, "ree:287640249964691459")
+            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         else:
-            await discord.bot.add_reaction(ctx.message, "pepOk:350323644783656971")
+            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['success'])
 
 @discord.bot.command(pass_context=True, no_pm=True)
 async def peporequest(ctx):
     filename = await functions.queueFrogFromMessage(ctx.message)
 
     if filename is False:
-        await discord.bot.add_reaction(ctx.message, "ree:287640249964691459")
+        await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         return
     
     #check to make sure filetype is valid based on hex data not ext
     filenameCheck = functions.getFileType(filename)
     if filenameCheck is False:
-        await discord.bot.add_reaction(ctx.message, "ree:287640249964691459")
+        await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         return
 
     #if we made it this far put it in the pepo-request channel

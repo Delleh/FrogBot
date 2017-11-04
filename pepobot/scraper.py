@@ -10,6 +10,6 @@ async def on_reaction_add(reaction, user):
     if user.id == config.cfg['administration']['owner'] and reaction.emoji == "✅":
         getFroggo = await functions.fetchFrogFromMessage(reaction.message)
         if getFroggo is False:
-            await discord.bot.add_reaction(reaction.message, "⚠️")
+            await discord.bot.add_reaction(reaction.message, config.cfg['reaction']['failure'])
         else:
-            await discord.bot.add_reaction(reaction.message, "pepOk:350323644783656971")
+            await discord.bot.add_reaction(reaction.message, config.cfg['reaction']['success'])

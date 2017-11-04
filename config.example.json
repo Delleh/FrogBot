@@ -10,6 +10,12 @@
 		"rate":30
 	},
 
+	"reaction":{
+		"success":"",
+		"warning":"",
+		"failure":""
+	},
+
 	"scraper":{
 		"location":"frogs/",
 		"staging":"tmp/"
