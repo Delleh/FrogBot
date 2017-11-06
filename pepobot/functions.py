@@ -82,7 +82,7 @@ async def getFrogFromURL(id, urls):
     for url in urls:
         filebase = url.split("/")[-1]
         filename = id + "-" + filebase.replace("-","_").replace(" ","_")
-        temp = await saveFrog(url, filename)
+        temp = await saveFrog(url, config.cfg['scraper']['staging'] + filename)
         return temp
 
 async def fetchFrogFromMessage(message):

@@ -18,7 +18,7 @@ async def pepo(ctx):
 async def fetch(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
         URLs = functions.getLinksFromPost(ctx.message.content)
-        resp = await functions.getFrogFromURL(ctx.message.id, URLs)
+        resp = await functions.fetchFrogFromMessage(ctx.message)
         if resp is False:
             await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         else:
