@@ -4,10 +4,6 @@ from . import config
 from . import discord
 from . import functions
 
-@discord.bot.command(pass_context=True, no_pm=True, description="Says Hello :)")
-async def hi(ctx):
-    await discord.bot.say("<:pepoG:352533294862172160>")
-
 @discord.bot.command(pass_context=True, description="Posts frogs")
 async def pepo(ctx):
     chosenFrog = functions.randomFrog()
@@ -17,7 +13,6 @@ async def pepo(ctx):
 @discord.bot.command(pass_context=True, no_pm=True)
 async def fetch(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
-        URLs = functions.getLinksFromPost(ctx.message.content)
         resp = await functions.fetchFrogFromMessage(ctx.message)
         if resp is False:
             await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])

@@ -12,6 +12,9 @@ lastMessageChannels = {}
 
 @discord.bot.event
 async def on_message(message):
+	if message.author.id == discord.bot.user.id:
+		return
+
 	if rateLimitAllowProcessing(message):
 		await discord.bot.process_commands(message)
 		
