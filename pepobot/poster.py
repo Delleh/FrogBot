@@ -3,10 +3,11 @@ print("IMPORT: %s" % __name__)
 from . import config
 from . import discord
 from . import functions
+from . import entropy
 
 @discord.bot.command(pass_context=True, description="Posts frogs")
 async def pepo(ctx):
-    chosenFrog = functions.randomFrog()
+    chosenFrog = entropy.frogFromPool()
     with open(chosenFrog, "rb") as f:
         await discord.bot.send_file(ctx.message.channel, f)
 

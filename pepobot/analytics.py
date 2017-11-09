@@ -3,15 +3,17 @@ print("IMPORT: %s" % __name__)
 from . import config
 from . import functions
 from . import discord
+from . import entropy
 
 import time
 
 lastMessageChannels = {}
 
-#TODO: SOMETIMES THE BOT LOCKS ITSELF OUT, FIX THIS
-
 @discord.bot.event
 async def on_message(message):
+	#this controls the entropy pool size, to make sure its at least x of the start
+	entropy.monitorPool()
+
 	if message.author.id == discord.bot.user.id:
 		return
 
