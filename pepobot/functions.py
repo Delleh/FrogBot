@@ -30,10 +30,10 @@ def sha1Sum(file):
 
     return sha1.hexdigest()
 
-def getFileType(filename):
+def allowedFileType(filename):
     filetype = imghdr.what(filename)
     if filetype in ['jpg','jpeg','png','gif','bmp']:
-        return filetype
+        return True
     else:
         return False
 
@@ -57,7 +57,6 @@ def commitFrogToLibrary(filename):
         os.rename(filename, config.cfg['scraper']['location'] + sha + fext)
         return filename
 
-#ADD DUPE CHECKING, IF EQUAL IGNORE OTHERWISE MD5 NAME OR SOME RANDOM VAL
 async def saveFrog(url, filename):
      async with aiohttp.ClientSession() as session:
                 async with session.get(url) as r:
