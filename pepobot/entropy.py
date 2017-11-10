@@ -36,5 +36,3 @@ def monitorPool():
 	if findPoolHealth() <= 0.17:
 		resetPool()
 		print("ENTROPY: Pool health is low, rebuilding needed.")
-	else:
-		print("ENTROPY: (((DEBUG))) pool is {0}".format(round(findPoolHealth(),3)))
