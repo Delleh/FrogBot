@@ -12,25 +12,6 @@ async def pepo(ctx):
         await discord.bot.send_file(ctx.message.channel, f)
 
 @discord.bot.command(pass_context=True, no_pm=True)
-async def fetch(ctx):
-    if ctx.message.author.id == config.cfg['administration']['owner']:
-        resp = await functions.fetchFrogFromMessage(ctx.message)
-        if resp is False:
-            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
-        else:
-            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['success'])
-
-@discord.bot.command(pass_context=True, no_pm=True)
-async def recall(ctx, id: str):
-    if ctx.message.author.id == config.cfg['administration']['owner']:
-        recalled = await discord.bot.get_message(ctx.message.channel, id)
-        getFroggo = await functions.fetchFrogFromMessage(recalled)
-        if getFroggo is False:
-            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
-        else:
-            await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['success'])
-
-@discord.bot.command(pass_context=True, no_pm=True)
 async def peporequest(ctx):
     filename = await functions.queueFrogFromMessage(ctx.message)
 

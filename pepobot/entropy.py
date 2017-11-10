@@ -29,7 +29,7 @@ def resetPool():
 
 #figure out how much is left in the pool. "count how many cards are left in the deck before we are out"
 def findPoolHealth():
-	return (len(frogPool) / len(functions.getAllFrogs()))
+	return round(len(frogPool) / len(functions.getAllFrogs()), 3)
 
 #Resets the pool to a full pool and resets it "pit boss making sure the deck of cards is healthy for fair play"
 def monitorPool():
