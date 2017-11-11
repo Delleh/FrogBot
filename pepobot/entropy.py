@@ -31,8 +31,8 @@ def resetPool():
 def findPoolHealth():
 	return round(len(frogPool) / len(functions.getAllFrogs()), 3)
 
-#Resets the pool to a full pool and resets it "pit boss making sure the deck of cards is healthy for fair play"
+#Used to make sure the random pool has something in it, and resets when too low. Call on on_message() "pit boss making sure the deck of cards is healthy for fair play"
 def monitorPool():
 	if findPoolHealth() <= 0.17:
-		resetPool()
 		print("ENTROPY: Pool health is low, rebuilding needed.")
+		resetPool()

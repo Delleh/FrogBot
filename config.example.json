@@ -14,11 +14,19 @@
 	"reaction":{
 		"success":"",
 		"warning":"",
-		"failure":""
+		"failure":"",
+		"approve":""
 	},
 
 	"scraper":{
 		"location":"frogs/",
 		"staging":"tmp/"
+	},
+
+	"aws":{
+		"enable":1,
+		"bucket":"",
+		"access":"",
+		"key":,
 	}
 }
