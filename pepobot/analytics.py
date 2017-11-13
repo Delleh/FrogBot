@@ -15,20 +15,18 @@ async def on_message(message):
 	entropy.monitorPool()
 
 	if message.author.id == discord.bot.user.id:
+		rateLimitNewMessage(message.channel.id)
 		return
 
-	if rateLimitAllowProcessing(message):
+	if rateLimitAllowProcessing(message) is True:
 		await discord.bot.process_commands(message)
-		
-	if message.author.id == discord.bot.user.id:
-		rateLimitNewMessage(message.channel.id, getEventTime())
 
 def getEventTime():
 	return time.time()
 
 #create a dict of all channels and the last time the bot spoke in the channel
-def rateLimitNewMessage(channel, eventTime):
-	lastMessageChannels[channel] = int(eventTime) #cast the float to an int, add it to a dictionary for all channels
+def rateLimitNewMessage(channel):
+	lastMessageChannels[channel] = int(getEventTime()) #cast the float to an int, add it to a dictionary for all channels
 
 #find the last time the bot spoke in channel, if the bot has never spoken since boot return the ratelimit in config.json
 def rateLimitSinceLastMessage(channel):
@@ -40,7 +38,7 @@ def rateLimitSinceLastMessage(channel):
 #controls if we should process commands or not
 def rateLimitAllowProcessing(msg):
 	last = rateLimitSinceLastMessage(msg.channel.id)
-	if msg.author.id == config.cfg['administration']['owner']:
+	if msg.author.id == config.cfg['administration']['owner']:	
 		return True
 	elif last >= config.cfg['bot']['rate']:
 		return True
