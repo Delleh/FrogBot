@@ -36,3 +36,12 @@ async def resetpool(ctx):
         health = entropy.findPoolHealth() * 100
         if entropy.resetPool() is True:
             await discord.bot.say('Reset the image entropy pool, {0} in randomized pool. Pool was {1}% before reset.'.format(len(entropy.frogPool), health))
+
+@admin.command(pass_context=True, no_pm=True, hidden=True)
+async def reloadconfig(ctx):
+    if ctx.message.author.id == config.cfg['administration']['owner']:
+        cf = config.loadConfig()
+        if cf is True:
+            await discord.bot.say('config.json sucessfully and carefully reloaded in place.')
+        else:
+            await discord.bot.say('Unable to reload config.json in place. Parser returned: {0}'.format(cf))
