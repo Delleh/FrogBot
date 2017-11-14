@@ -6,15 +6,26 @@ import os
 import sys
 import shutil
 
+#find if we are on windows or unix because windows is a special snowflake liberal that needs its \\ hugbox directories. Wanna hop on Discord and debate me?
+if os.name == "nt":
+    SLASHES = "\\"
+    print("INFO: Attempting to use Windows formatting for filesystems")
+elif os.name == "posix":
+    SLASHES = "/"
+    print("INFO: Attempting to use Linux formatting for filesystems")
+else:
+    print("ERROR: Unsupported OS. If you're not on Linux or Windows you can probably fix this on your own.")
+    sys.exit(0)
+
 #let the user do imports via cli command
 if len(sys.argv) > 2:
     print("ERROR: too many arguments. {0}".format(sys.argv[2:]))
     sys.exit(0)
 elif len(sys.argv) == 1 or sys.argv[1].lower() == "-h":
-    print('HELP: python3 importer.py "C:\\users\\user\\Desktop\\my pics\\memes"') #todo: probably build a better help menu, and how paths cant end in \
-    canidates
+    print('HELP: python3 importer.py "C:\\users\\user\\Desktop\\my pics\\memes"') #todo: probably build a better help menu, and how paths cant end in \canidates
+    sys.exit(0)
 else:
-    IMPORT_FOLDER = sys.argv[1] + "\\"
+    IMPORT_FOLDER = sys.argv[1] + SLASHES
     print("IMPORT: Looking in \"{0}\" for images(PNG, JPG, GIF) that do not already exist in {1}".format(IMPORT_FOLDER, config.cfg['scraper']['location']))
 
 #get all the frogs
@@ -53,7 +64,7 @@ if meme != "ok":
 for image in elected:
 
     #copy it to the tmp folder
-    tempimage = os.getcwd() + "\\" + config.cfg['scraper']['staging'] + os.path.basename(image)
+    tempimage = os.getcwd() + SLASHES + config.cfg['scraper']['staging'] + os.path.basename(image)
     shutil.copyfile(image, tempimage)
 
     #commit it to the store as any fetch command would do
