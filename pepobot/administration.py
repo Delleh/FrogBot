@@ -42,6 +42,6 @@ async def reloadconfig(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
         cf = config.loadConfig()
         if cf is True:
-            await discord.bot.say('config.json sucessfully and carefully reloaded in place.')
+            await discord.bot.say('config.json successfully and carefully reloaded in place.')
         else:
             await discord.bot.say('Unable to reload config.json in place. Parser returned: {0}'.format(cf))
