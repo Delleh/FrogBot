@@ -5,14 +5,14 @@ from . import discord
 from . import functions
 from . import entropy
 
-@discord.bot.command(pass_context=True, description="Posts frogs")
-async def pepo(ctx):
+@discord.bot.command(pass_context=True, description="Posts images", aliases=config.cfg['bot']['commands']['postimage'])
+async def postimage(ctx):
     chosenFrog = entropy.frogFromPool()
     with open(chosenFrog, "rb") as f:
         await discord.bot.send_file(ctx.message.channel, f)
 
-@discord.bot.command(pass_context=True, no_pm=True)
-async def peporequest(ctx):
+@discord.bot.command(pass_context=True, no_pm=True, description="Allows users to request images to add to the bot.", aliases=config.cfg['bot']['commands']['requestimage'])
+async def requestimage(ctx):
     filename = await functions.queueFrogFromMessage(ctx.message)
 
     if filename is False:

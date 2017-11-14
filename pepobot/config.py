@@ -4,9 +4,9 @@ import json
 
 #load the json file as cfg, allows access as config.json. Stop on error.
 def loadConfig():
+	global cfg
 	try:
 		with open("config.json", "r") as cfgFile:
-			global cfg
 			try:
 				cfg = json.load(cfgFile)
 				print("CONFIG: config.json loaded.")
