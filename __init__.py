@@ -12,6 +12,5 @@ import pepobot.administration
 pepobot.discord.bot.run(pepobot.config.cfg['bot']['token'])
 
 #TODO: 
-# auto make folders in config
 # systemd service template
 # all pepo/frogs should be generic
