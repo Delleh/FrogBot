@@ -24,6 +24,15 @@ def randomFrog():
 def stopBot():
     sys.exit(0)
 
+def osSlashes():
+    #find if we are on windows or unix because windows is a special snowflake liberal that needs its \\ hugbox directories. Wanna hop on Discord and debate me?
+    if os.name == "nt":
+        return "\\"
+    elif os.name == "posix":
+        return "/"
+    else:
+        return None
+
 def sha1Sum(file):
     sha1 = hashlib.sha1() 
     with open(file, 'rb') as r:

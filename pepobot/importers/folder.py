@@ -1,7 +1,14 @@
+print("INCLUDE: %s" % __name__)
+
+from .. import config
+from .. import functions
+
 import glob
 import shutil
 import os
 import sys
+
+SLASHES = functions.osSlashes()
 
 def folder(folder):
     #get all the frogs

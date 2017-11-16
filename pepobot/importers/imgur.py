@@ -1,7 +1,13 @@
+print("INCLUDE: %s" % __name__)
+
+from .. import config 
+from .. import functions
+
 import requests
 import os
 import sys
 
+SLASHES = functions.osSlashes()
 
 def imgur(url):
     #fetch the list of images to get
