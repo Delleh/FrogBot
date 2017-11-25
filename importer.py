@@ -14,13 +14,10 @@ parser.add_argument("--folder", help="Import images in bulk from defined folder.
 parser.add_argument("--imgur", help="Import images in bulk from imgur.com albums")
 arg = parser.parse_args()
 
-
 if arg.imgur is not None:
-    imgur.imgur(arg.imgur)
+    imgur.imgur(arg.imgur, True)
 elif arg.folder is not None:
-    folder(arg.folder)
+    folder.folder(arg.folder, True)
 else:
-    print("are u dumb?")
+    print("ERROR: Unable to understand what you're trying to do. I suggest trying -h")
     sys.exit(0)
-
-

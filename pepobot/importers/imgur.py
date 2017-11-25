@@ -9,7 +9,7 @@ import sys
 
 SLASHES = functions.osSlashes()
 
-def imgur(url):
+def imgur(url, USER_INTERACT=False):
     #fetch the list of images to get
     req = requests.get("https://imgur.com/ajaxalbums/getimages/" + url.split("/")[-1] + "/hit.json")
     if req.status_code is not 200:
@@ -21,10 +21,11 @@ def imgur(url):
         print("IMGUR: unofficial API returned {0} results in album. Does this look correct?".format(len(album['data']['images'])))
 
     #verify if the user wants to go through with this knowing it could fuck up
-    meme = input("IMPORT (USER INPUT): Type 'ok' to start. Any other input will cancel.\n")
-    if meme != "ok":
-        print("IMPORT: import cancelled :(")
-        sys.exit(0)
+    if USER_INTERACT == True:
+        meme = input("IMPORT (USER INPUT): Type 'ok' to start. Any other input will cancel.\n")
+        if meme != "ok":
+            print("IMPORT: import cancelled :(")
+            sys.exit(0)
 
     #download all of the images to the temp folder
     for image in album['data']['images']:
@@ -44,3 +45,5 @@ def imgur(url):
 
         #commit
         functions.commitFrogToLibrary(tempimage)
+
+    return True

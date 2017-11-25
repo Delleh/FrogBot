@@ -10,7 +10,7 @@ import sys
 
 SLASHES = functions.osSlashes()
 
-def folder(folder):
+def folder(folder, USER_INTERACT=False):
     #get all the frogs
     canidates = glob.glob(folder + "*")
     elected = []
@@ -38,10 +38,11 @@ def folder(folder):
         print("IMPORT: Ready to copy {0} images of the {1} files in selected folder.".format(len(elected), len(canidates)))
 
     #make the user accept what they are about to do to the collection
-    meme = input("IMPORT (USER INPUT): Type 'ok' to start. Any other input will cancel.\n")
-    if meme != "ok":
-        print("IMPORT: import cancelled :(")
-        sys.exit(0)
+    if USER_INTERACT == True:
+        meme = input("IMPORT (USER INPUT): Type 'ok' to start. Any other input will cancel.\n")
+        if meme != "ok":
+            print("IMPORT: import cancelled :(")
+            sys.exit(0)
 
     #if we got this far were not looking back, process each image that passed the checks
     for image in elected:
