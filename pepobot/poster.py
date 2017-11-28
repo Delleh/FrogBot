@@ -11,6 +11,10 @@ async def postimage(ctx):
     with open(chosenFrog, "rb") as f:
         await discord.bot.send_file(ctx.message.channel, f)
 
+@discord.bot.command(pass_context=True, description="Get the URL to join", aliases=config.cfg['bot']['commands']['joinlink'])
+async def joinlink(ctx):
+    await discord.bot.say('Add me to your own discord! <https://discordapp.com/oauth2/authorize?client_id={0.user.id}&scope=bot&permissions=0>'.format(discord.bot))
+
 @discord.bot.command(pass_context=True, no_pm=True, description="Allows users to request images to add to the bot.", aliases=config.cfg['bot']['commands']['requestimage'])
 async def requestimage(ctx):
     filename = await functions.queueFrogFromMessage(ctx.message)

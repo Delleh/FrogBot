@@ -11,6 +11,7 @@
 		"rate":30,
 		"commands":{
 			"postimage":["pepo","frog"],
+			"joinlink":["getfrogbot"],
 			"requestimage":["peporequest"],
 			"fetchimage":["fetch"],
 			"recallimage":["recall"],

@@ -45,3 +45,22 @@ async def reloadconfig(ctx):
             await discord.bot.say('config.json successfully and carefully reloaded in place.')
         else:
             await discord.bot.say('Unable to reload config.json in place. Parser returned: {0}'.format(cf))
+
+@imagebotadmin.command(pass_context=True, hidden=True)
+async def stats(ctx):
+    usercount = 0
+    for ayylmao in discord.bot.get_all_members(): usercount = usercount + 1
+    await discord.bot.say('Currently in {0} Discords shitposting to {1} users'.format(len(discord.bot.servers), usercount))
+
+
+#probably come up with a better place for this
+@discord.bot.event
+async def on_server_join(server):
+    msg = "**Joined server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` {0.owner.mention} **Members:** `{0.member_count}`".format(server)
+    print("JOIN: " + msg)
+    await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)
+@discord.bot.event
+async def on_server_remove(server):
+    msg = "**Departing server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` {0.owner.mention} **Members:** `{0.member_count}`".format(server)
+    print("LEAVE: " + msg)
+    await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)
