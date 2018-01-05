@@ -8,6 +8,7 @@
 		"token":"",
 		"description":"I am a simple robot, who likes to post pictures of frogs",
 		"prefix":"!",
+		"playing":"!pepo | !getfrogbot",
 		"rate":30,
 		"commands":{
 			"postimage":["pepo","frog"],
