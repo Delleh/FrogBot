@@ -56,11 +56,11 @@ async def stats(ctx):
 #probably come up with a better place for this
 @discord.bot.event
 async def on_server_join(server):
-    msg = "**Joined server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` {0.owner.mention} **Members:** `{0.member_count}`".format(server)
+    msg = "**Joined server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` **Members:** `{0.member_count}`".format(server)
     print("JOIN: " + msg)
     await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)
 @discord.bot.event
 async def on_server_remove(server):
-    msg = "**Departing server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` {0.owner.mention} **Members:** `{0.member_count}`".format(server)
+    msg = "**Departing server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` **Members:** `{0.member_count}`".format(server)
     print("LEAVE: " + msg)
     await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)

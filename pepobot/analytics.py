@@ -14,8 +14,8 @@ async def on_message(message):
 	#this controls the entropy pool size, to make sure its at least x of the start
 	entropy.monitorPool()
 
-	#debug line comment or console gets spammy af
-	print("Server: {0.server} #{0.channel} User: {0.author} (ID:{0.author.id}) Message: {0.content}".format(message))
+	if config.cfg['bot']['debug'] == 1:
+		print("Server: {0.server} #{0.channel} User: {0.author} (ID:{0.author.id}) Message: {0.content}".format(message))
 
 	if message.author.id == discord.bot.user.id:
 		rateLimitNewMessage(message.channel.id)
