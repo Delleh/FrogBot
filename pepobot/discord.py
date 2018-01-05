@@ -17,7 +17,7 @@ async def on_ready():
 
     await asyncio.sleep(5)
     print('{0} Setting game status as in as "{1}"'.format(__name__, config.cfg['bot']['playing']))
-    await bot.change_presence(game=discord.Game(name=config.cfg['bot']['gamestatus']))    
+    await bot.change_presence(game=discord.Game(name=config.cfg['bot']['playing']))
 
 def objectFactory(snowflake):
     return discord.Object(snowflake)
