@@ -1,11 +1,13 @@
-print("IMPORT: %s" % __name__)
-
 from . import config
 from . import functions
 from . import discord
 from . import entropy
 
+import logging
 import time
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 lastMessageChannels = {}
 
@@ -15,7 +17,7 @@ async def on_message(message):
 	entropy.monitorPool()
 
 	if config.cfg['bot']['debug'] == 1:
-		print("Server: {0.server} #{0.channel} User: {0.author} (ID:{0.author.id}) Message: {0.content}".format(message))
+		logging.info("MSG Server: {0.server} #{0.channel} User: {0.author} (ID:{0.author.id}) Message: {0.content}".format(message))
 
 	if message.author.id == discord.bot.user.id:
 		rateLimitNewMessage(message.channel.id)

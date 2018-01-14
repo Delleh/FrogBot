@@ -1,5 +1,3 @@
-print("IMPORT: %s" % __name__)
-
 from . import config
 
 import aiohttp
@@ -10,6 +8,10 @@ import os
 import random
 import re
 import sys
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 def getLinksFromPost(msg):
     return re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', msg)
@@ -61,11 +63,11 @@ def commitFrogToLibrary(filename):
 
     #if we find a duplicate frog, ignore
     if len(findDuplicateFrog(sha)) is not 0:
-        print("DUPE: A duplicate frog was already found saved on disk with the SHA1 of {0}".format(sha))
+        logger.warn("A duplicate frog was already found saved on disk with the SHA1 of {0}".format(sha))
         deleteFrog(filename)
         return False
     else:
-        print("ADD: Frog accepted as not seen, adding to the folder. SHA1:{0}".format(sha))
+        logger.info("Frog accepted as not seen, adding to the folder. SHA1:{0}".format(sha))
         fname, fext = os.path.splitext(filename)
         os.rename(filename, config.cfg['scraper']['location'] + sha + fext)
         return filename

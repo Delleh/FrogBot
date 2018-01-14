@@ -1,9 +1,11 @@
-print("IMPORT: %s" % __name__)
-
 from . import config
 from . import functions
 
 import random
+import logging
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 frogPool = []
 
@@ -22,7 +24,7 @@ def resetPool():
 	for x in range(random.randint(1, 100)):
 		random.shuffle(frogs)
 
-	print("ENTROPY: Rebuilding the random list of {0} images, shuffling the deck {1} times...".format(len(frogs), x))
+	logger.warn("ENTROPY: Rebuilding the random list of {0} images, shuffling the deck {1} times...".format(len(frogs), x))
 
 	frogPool = frogs
 	return True
@@ -37,5 +39,5 @@ def findPoolHealth():
 #Used to make sure the random pool has something in it, and resets when too low. Call on on_message() "pit boss making sure the deck of cards is healthy for fair play"
 def monitorPool():
 	if findPoolHealth() <= 0.17:
-		print("ENTROPY: Pool health is low, rebuilding needed.")
+		logger.warn("ENTROPY: Pool health is low, rebuilding needed.")
 		resetPool()

@@ -2,3 +2,4 @@ __pycache__
 frogs/
 tmp/
 config.json
+frogbot.log

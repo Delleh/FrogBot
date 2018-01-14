@@ -1,10 +1,13 @@
-print("IMPORT: %s" % __name__)
+import logging
 
 from . import config
 from . import discord 
 from . import functions
 
 from .importers import imgur as imgurimport
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 @discord.bot.event
 async def on_reaction_add(reaction, user):

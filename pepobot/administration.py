@@ -1,9 +1,12 @@
-print("IMPORT: %s" % __name__)
+import logging
 
 from . import config
 from . import discord
 from . import functions
 from . import entropy
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 @discord.bot.command(pass_context=True, no_pm=True, hidden=True, aliases=config.cfg['bot']['commands']['fetchimage'])
 async def fetchimage(ctx):
@@ -57,10 +60,10 @@ async def stats(ctx):
 @discord.bot.event
 async def on_server_join(server):
     msg = "**Joined server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` **Members:** `{0.member_count}`".format(server)
-    print("JOIN: " + msg)
+    logger.info(msg)
     await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)
 @discord.bot.event
 async def on_server_remove(server):
     msg = "**Departing server:** `{0.name}` **Owner:** `{0.owner.name}#{0.owner.discriminator}` **Members:** `{0.member_count}`".format(server)
-    print("LEAVE: " + msg)
+    logger.info(msg)
     await discord.bot.send_message(discord.objectFactory(config.cfg['administration']['requests']),msg)

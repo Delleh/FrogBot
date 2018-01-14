@@ -1,9 +1,12 @@
-print("IMPORT: %s" % __name__)
+import logging
 
 from . import config
 from . import discord
 from . import functions
 from . import entropy
+
+logger = logging.getLogger(__name__)
+logger.info("loading...")
 
 @discord.bot.command(pass_context=True, description="Posts images", aliases=config.cfg['bot']['commands']['postimage'])
 async def postimage(ctx):
