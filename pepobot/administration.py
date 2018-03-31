@@ -7,6 +7,8 @@ from . import entropy
 
 import subprocess
 import sys
+import os
+import platform
 
 logger = logging.getLogger(__name__)
 logger.info("loading...")
@@ -34,7 +36,20 @@ async def recallimage(ctx, id: str):
 async def imagebotadmin(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
         if ctx.invoked_subcommand is None:
-            await discord.bot.say('Unknown request. Did you mean resetpool | reloadconifg | stats | git | host?')
+            await discord.bot.say('Unknown request. Did you mean run | resetpool | reloadconifg | stats | system | modules')
+
+@imagebotadmin.command(pass_context=True, hidden=True)
+async def run(ctx, *, msg: str):
+    if ctx.message.author.id == config.cfg['administration']['owner']:
+        try:
+            evalData = eval(msg.replace('`',''))
+            embedcolor = 0x32CD32
+        except Exception as e:
+            evalData = e
+            embedcolor = 0xDC143C
+        emd = discord.embeds.Embed(color=embedcolor)            
+        emd.add_field(name="Result", value=evalData)
+        await discord.bot.say(embed=emd)
 
 @imagebotadmin.command(pass_context=True, hidden=True)
 async def resetpool(ctx):
@@ -59,18 +74,32 @@ async def stats(ctx):
     await discord.bot.say('Currently in {0:,} Discords shitposting to {1:,} unique users'.format(len(discord.bot.servers), len(set(userlist))))
 
 @imagebotadmin.command(pass_context=True, hidden=True)
-async def git(ctx):
+async def system(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
+        load = os.times()
         gitcommit = subprocess.check_output(['git','rev-parse','--short','HEAD']).decode(encoding='UTF-8').rstrip()
         gitbranch = subprocess.check_output(['git','rev-parse','--abbrev-ref','HEAD']).decode(encoding='UTF-8').rstrip()
         gitremote = subprocess.check_output(['git','config','--get','remote.origin.url']).decode(encoding='UTF-8').rstrip().replace(".git","")
-        await discord.bot.say("```Commit {0}, Branch {1}, Remote {2}```".format(gitcommit, gitbranch, gitremote))
 
+        emd = discord.embeds.Embed(color=0xE79015)
+        emd.add_field(name="Discord.py Version", value=discord.discord.__version__)
+        emd.add_field(name="Python Version", value=platform.python_build()[0])
+        emd.add_field(name="Host", value="{} ({}) [{}] hostname '{}'".format(platform.system(), platform.platform(), sys.platform, platform.node()))
+        emd.add_field(name="Process", value="PID: {} User: {:.2f}% System: {:.2f}%".format(os.getpid(), load[0], load[1]))
+        emd.add_field(name="Git Revision", value="`{}@{}` Remote: {}".format(gitcommit.upper(), gitbranch.title(), gitremote))
+        await discord.bot.say(embed=emd)
+
+#print what modules have been loaded for the bot
 @imagebotadmin.command(pass_context=True, hidden=True)
-async def host(ctx):
+async def modules(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
-        await discord.bot.say("```Discord.py {0}, Python {1} ({2})```".format(discord.discord.__version__, sys.version, sys.platform))
-
+        mods = ""
+        for k in sys.modules.keys():
+            if "pepobot" in k:
+                mods = mods + "\n" + k
+        emd = discord.embeds.Embed(color=0xE79015)
+        emd.add_field(name="Loaded Modules", value=mods)
+        await discord.bot.say(embed=emd)
 
 #probably come up with a better place for this
 @discord.bot.event

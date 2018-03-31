@@ -4,7 +4,9 @@ import logging
 
 from . import config
 from . import entropy
+
 from discord.ext import commands
+from discord import embeds
 
 logger = logging.getLogger(__name__)
 logger.info("loading...")
