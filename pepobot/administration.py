@@ -54,9 +54,9 @@ async def reloadconfig(ctx):
 
 @imagebotadmin.command(pass_context=True, hidden=True)
 async def stats(ctx):
-    usercount = 0
-    for ayylmao in discord.bot.get_all_members(): usercount = usercount + 1
-    await discord.bot.say('Currently in {0} Discords shitposting to {1} users'.format(len(discord.bot.servers), usercount))
+    userlist = []
+    for member in discord.bot.get_all_members(): userlist.append(member.id)
+    await discord.bot.say('Currently in {0:,} Discords shitposting to {1:,} unique users'.format(len(discord.bot.servers), len(set(userlist))))
 
 @imagebotadmin.command(pass_context=True, hidden=True)
 async def git(ctx):
