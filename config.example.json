@@ -10,6 +10,7 @@
 		"prefix":"!",
 		"playing":"!pepo | !getfrogbot",
 		"rate":30,
+		"debug":1,
 		"commands":{
 			"postimage":["pepo","frog"],
 			"joinlink":["getfrogbot"],
@@ -17,7 +18,14 @@
 			"fetchimage":["fetch"],
 			"recallimage":["recall"],
 			"admin":["admin"]
+			"blockuser":["block"],
+			"unblockuser":["unblock"]	
 		}
+	},
+
+	"db":{
+		"location":"frogbot.db",
+		"timeout":1
 	},
 
 	"reaction":{

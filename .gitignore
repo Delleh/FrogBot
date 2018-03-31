@@ -3,3 +3,4 @@ frogs/
 tmp/
 config.json
 frogbot.log
+*.db

@@ -4,11 +4,13 @@ from . import config
 from . import discord
 from . import functions
 from . import entropy
+from . import database
 
 import subprocess
 import sys
 import os
 import platform
+import time
 
 logger = logging.getLogger(__name__)
 logger.info("loading...")
@@ -31,6 +33,34 @@ async def recallimage(ctx, id: str):
             await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['failure'])
         else:
             await discord.bot.add_reaction(ctx.message, config.cfg['reaction']['success'])
+
+@discord.bot.command(pass_context=True, hidden=True, aliases=config.cfg['bot']['commands']['blockuser'])
+async def blockuser(ctx, passed_id: str, reason: str):
+    if ctx.message.author.id == config.cfg['administration']['owner']:
+
+        if len(ctx.message.mentions) == 1:
+            uid = ctx.message.mentions[0].id
+        else:
+            uid = passed_id
+
+        database.cursor.execute('INSERT OR IGNORE INTO ignore_user(user, reason, setby, time) VALUES(?,?,?,?)', (uid, reason, ctx.message.author.id, time.mktime(time.gmtime())))
+        database.con.commit()
+
+        await discord.bot.say('<:{}> User ID:`{}` blacklisted from all bot commands.'.format(config.cfg['reaction']['success'], uid))
+
+@discord.bot.command(pass_context=True, hidden=True, aliases=config.cfg['bot']['commands']['unblockuser'])
+async def unblockuser(ctx, passed_id: str):
+    if ctx.message.author.id == config.cfg['administration']['owner']:
+
+        if len(ctx.message.mentions) == 1:
+            uid = ctx.message.mentions[0].id
+        else:
+            uid = passed_id
+
+        database.cursor.execute('DELETE FROM ignore_user WHERE user=?', (uid,))
+        database.con.commit()
+
+        await discord.bot.say('<:{}> User ID:`{}` is unblocked from all bot commands..'.format(config.cfg['reaction']['success'], uid))
 
 @discord.bot.group(pass_context=True, hidden=True, aliases=config.cfg['bot']['commands']['admin'])
 async def imagebotadmin(ctx):

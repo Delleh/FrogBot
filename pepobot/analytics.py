@@ -2,6 +2,7 @@ from . import config
 from . import functions
 from . import discord
 from . import entropy
+from . import database
 
 import logging
 import time
@@ -15,6 +16,12 @@ lastMessageChannels = {}
 async def on_message(message):
 	#this controls the entropy pool size, to make sure its at least x of the start
 	entropy.monitorPool()
+
+	#check if the user is blacklisted globally
+	database.cursor.execute('SELECT * FROM ignore_user WHERE user=?', (message.author.id,))
+	result = database.cursor.fetchone()
+	if result is not None:
+		return
 
 	if config.cfg['bot']['debug'] == 1:
 		logging.info("MSG Server: {0.server} #{0.channel} User: {0.author} (ID:{0.author.id}) Message: {0.content}".format(message))
