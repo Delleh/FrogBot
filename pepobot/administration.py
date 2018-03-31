@@ -41,7 +41,7 @@ async def resetpool(ctx):
     if ctx.message.author.id == config.cfg['administration']['owner']:
         health = entropy.findPoolHealth() * 100
         if entropy.resetPool() is True:
-            await discord.bot.say('Reset the image entropy pool, {0} in randomized pool. Pool was {1}% before reset.'.format(len(entropy.frogPool), health))
+            await discord.bot.say('Reset the image entropy pool, {0} in randomized pool. Pool was {1:.2f}% before reset.'.format(len(entropy.frogPool), health))
 
 @imagebotadmin.command(pass_context=True, hidden=True)
 async def reloadconfig(ctx):
