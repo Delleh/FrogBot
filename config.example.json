@@ -17,9 +17,9 @@
 			"requestimage":["peporequest"],
 			"fetchimage":["fetch"],
 			"recallimage":["recall"],
-			"admin":["admin"]
+			"admin":["admin"],
 			"blockuser":["block"],
-			"unblockuser":["unblock"]	
+			"unblockuser":["unblock"]
 		}
 	},
 
@@ -33,7 +33,7 @@
 		"warning":"",
 		"failure":"",
 		"approve":""
-	},
+		},
 
 	"scraper":{
 		"location":"frogs/",
@@ -44,6 +44,6 @@
 		"enable":1,
 		"bucket":"",
 		"access":"",
-		"key":"",
+		"key":""
 	}
 }
